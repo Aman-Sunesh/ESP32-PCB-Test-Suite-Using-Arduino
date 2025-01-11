@@ -32,24 +32,30 @@ DHT DHTObject(DHTPin, DHTTYPE);
 
 void getDHTReadings() {
   Humidity = DHTObject.readHumidity();
+  
   // Read temperature as Celsius (the default)
   temperature_Celsius = DHTObject.readTemperature();
+  
   // Read temperature as Fahrenheit (isFahrenheit = true)
   temperature_Fahrenheit = DHTObject.readTemperature(true);
+  
   temperature_Kelvin = temperature_Celsius + 273.15;
 }
 
 void getVoltageReadings() {
   // Read analog voltage from the voltage sensor
   sensorReading = analogRead(voltageSensorPin);
+  
   // Convert analog reading to voltage value
   voltageValue = (sensorReading / maxAdcCount) * 3.3 * 2;
 }
 
 void reactToLowVoltage() {
   Serial.println("Alert! Low Voltage");
+  
   // Send the low voltage event to the website
   events.send("Low Voltage Alert", "low_voltage", millis());
+  
   delay(1000);
   Serial.flush();
   esp_deep_sleep_start();
@@ -58,29 +64,39 @@ void reactToLowVoltage() {
 void reactToTemp(float temperature) {
   if (temperature < -10) {
     Serial.println("Alert! Low Temperature");
+    
     // Send the low temperature event to the website
     events.send("Low Temperature Alert", "low_temperature", millis());
+    
     delay(1000);
     Serial.flush();
+    
     esp_deep_sleep_start();
   }
   else if (temperature > 45) {
     Serial.println("Alert! High Temperature");
+    
     // Send the high temperature event to the website
     events.send("High Temperature Alert", "high_temperature", millis());
+    
     delay(1000);
     Serial.flush();
+    
     esp_deep_sleep_start();
   }
 }
 
 void reactToHumidity(float humidity) {
-  if (humidity > 75) {
+  if (humidity > 75) 
+  {
     Serial.println("Alert! High Humidity");
+    
     // Send the high humidity event to the website
     events.send("High Humidity Alert", "high_humidity", millis());
+    
     delay(1000);
     Serial.flush();
+    
     esp_deep_sleep_start();
   }
 }
@@ -97,7 +113,8 @@ void connectToWiFi(const char *ssid, const char *password) {
   } while (attempts < 10 && WiFi.status() != WL_CONNECTED);
 
   // Check if ESP32 is connected to WiFi
-  if (WiFi.status() == WL_CONNECTED) {
+  if (WiFi.status() == WL_CONNECTED) 
+  {
     // Check if ESP32 is connected to WiFi
     Serial.println();
     Serial.println("WiFi Status: Connected to WiFi");
@@ -105,33 +122,41 @@ void connectToWiFi(const char *ssid, const char *password) {
     Serial.println(WiFi.localIP());
     Serial.println();
   }
-  else {
+  else 
+  {
     Serial.println();
     Serial.println("WiFi Status: Failed to connect to WiFi. Check credentials and try again.");
+    
     delay(1000);
     Serial.flush();
+    
     esp_deep_sleep_start();
   }
 }
 
 void scanNetworks() {
   Serial.println("Scanning...");
+  
   // Try scanning and connecting to the specified SSID for a maximum of 10 times
   for (int attempt = 0; attempt < 10; attempt++) {
     int n = WiFi.scanNetworks();
     Serial.println();
 
-    if (n == 0) {
+    if (n == 0) 
+    {
       Serial.println("No networks found.");
     }
-    else {
+    else 
+    {
       Serial.print(n);
       Serial.println(" networks found...");
 
       // Loop through the found networks
-      for (int i = 0; i < n; i++) {
+      for (int i = 0; i < n; i++) 
+      {
         // Check if the specified SSID is found
-        if (WiFi.SSID(i) == ssid) {
+        if (WiFi.SSID(i) == ssid) 
+        {
           Serial.print(" (");
           Serial.print(WiFi.RSSI(i));
           Serial.print(")");
@@ -140,7 +165,8 @@ void scanNetworks() {
           // Stop scanning after connecting to the specified SSID
           return;
         }
-        else {
+        else 
+        {
           Serial.print(ssid);
           Serial.println(" ,not found!");
         }

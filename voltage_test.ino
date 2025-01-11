@@ -6,16 +6,16 @@
 
  void reactToLowVoltage()
  {
- Serial.println("Alert! Low Voltage");
+   Serial.println("Alert! Low Voltage");
  }
 
  void setup()
  {
- Serial.begin(115200);
- Serial.println("Hello, ESP32-C3!");
-   
- //Set the pinMode for the voltage sensor pin to INPUT
- pinMode(voltageSensorPin, INPUT);
+   Serial.begin(115200);
+   Serial.println("Hello, ESP32-C3!");
+     
+   //Set the pinMode for the voltage sensor pin to INPUT
+   pinMode(voltageSensorPin, INPUT);
  }
 
  void loop()

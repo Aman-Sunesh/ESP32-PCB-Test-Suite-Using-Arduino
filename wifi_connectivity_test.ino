@@ -31,7 +31,6 @@ void connectToWiFi(const char *ssid, const char *password)
   }
 }
 
-
 void scanNetworks()
 {
   Serial.println("Scanning...");
@@ -80,7 +79,6 @@ void scanNetworks()
   Serial.println(" not found after 10 attempts!");
 }
 
-
 void printWifiStatus()
 {
   // Print the SSID (Service Set Identifier) of the connected WiFi network
@@ -99,7 +97,6 @@ void printWifiStatus()
   Serial.println(" dBm");
 }
 
-
 void setup()
 {
   Serial.begin(115200);
@@ -107,7 +104,6 @@ void setup()
   // Scan for available networks
   scanNetworks();
 }
-
 
 void loop()
 {
